@@ -45,15 +45,28 @@ jobs:
          username: ${{ secrets.EC2_USER }}
          key: ${{ secrets.SSH_KEY }}
          script: |
+           set -e 
+           echo "Stopping old container..."
+           
             docker stop spring-demo || true
             docker rm spring-demo || true
-            delete image spring-demo || true
            
+            echo "Pulling latest Docker image..."
             docker pull ${{ secrets.DOCKER_USERNAME }}/spring-boot-cicd-demo:latest
-            docker run -d --name spring-demo -p 8080:8080 ${{ secrets.DOCKER.USERNAME }}/spring-boot-cicd-demo:latest
            
+            echo "Starting new container..."
+            docker run -d \ --name spring-demo \ --restart unless-stopped \ -p 8080:8080 \ ${{ secrets.DOCKER_USERNAME }}/spring-boot-cicd-demo:latest
+           
+            echo "===== Docker PS =====" 
             docker ps
            
+            echo "===== Docker PS -A =====" 
+            docker ps -a
+           
+            echo "===== Container Logs =====" 
+            docker logs --tail 50 spring-demo
+           
+            echo "===== Server Info ====="
             whoami
             ls -al
     
