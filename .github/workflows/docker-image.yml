@@ -59,7 +59,7 @@ jobs:
             --name spring-demo \
             --restart unless-stopped \
             -p 8080:8080 \
-            image
+            patelj2600/spring-boot-cicd-demo:latest
            
            
             echo "===== Docker PS =====" 
