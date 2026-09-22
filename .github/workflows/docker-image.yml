@@ -55,7 +55,12 @@ jobs:
             docker pull ${{ secrets.DOCKER_USERNAME }}/spring-boot-cicd-demo:latest
            
             echo "Starting new container..."
-            docker run -d \ --name spring-demo \ --restart unless-stopped \ -p 8080:8080 \ ${{ secrets.DOCKER_USERNAME }}/spring-boot-cicd-demo:latest
+            docker run -d \
+            --name spring-demo \
+            --restart unless-stopped \
+            -p 8080:8080 \
+            image
+           
            
             echo "===== Docker PS =====" 
             docker ps
